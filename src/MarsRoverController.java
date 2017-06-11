@@ -5,7 +5,7 @@ import java.text.ParseException;
 
 /**
  * Represents a Rover Controller, an entity that sends commands to rovers.
- *
+ * <p>
  * Created by crmdias on 10/06/2017.
  */
 public class MarsRoverController {
@@ -13,15 +13,14 @@ public class MarsRoverController {
     /**
      * Parses input string and performs commands on rovers accordingly, printing their final position and orientation
      *
-     * @param inStream stream that will receive the input. Input must be on the form
-     *            "(int: plateauX) (int: plateauY)[\n(int: xpos) (int: ypos) (char: orientation)\n(str: commands)]"
-     * @throws ParseException In case the input string is invalid
-     * @throws IOException In case there is an error with writing or reading to one of the streams
+     * @param inStream  stream that will receive the input. Input must be on the form
+     *                  "(int: plateauX) (int: plateauY)[\n(int: xpos) (int: ypos) (char: orientation)\n(str: commands)]"
      * @param outStream Stream where output containing in each line the final position and orientation of each rover
      *                  will be written
+     * @throws ParseException In case the input string is invalid
+     * @throws IOException    In case there is an error with writing or reading to one of the streams
      */
-    static void performBatchControl(InputStream inStream, OutputStream outStream) throws ParseException, IOException
-    {
+    static void performBatchControl(InputStream inStream, OutputStream outStream) throws ParseException, IOException {
         //Scanner is slightly slower than bufferedReader but generates more readable code
         Scanner input = new Scanner(inStream);
 
@@ -31,12 +30,12 @@ public class MarsRoverController {
         Plateau plateau;
         try {
             plateau = Plateau.fromString(input.nextLine());
-        }catch(ParseException pe){
+        } catch (ParseException pe) {
             throw new ParseException("Error parsing Plateau at line 1", 1);
         }
 
         //Then while there are rovers (lineIndex is only used for exceptions)
-        for(int lineIndex=2; input.hasNextLine(); lineIndex++) {
+        for (int lineIndex = 2; input.hasNextLine(); lineIndex++) {
 
             //Parse rover
             MarsRover rover;
@@ -44,9 +43,9 @@ public class MarsRoverController {
             try {
                 line = input.nextLine();
                 rover = MarsRover.fromString(line, plateau);
-            }catch(ParseException pe){
+            } catch (ParseException pe) {
                 //if this is an empty line, input has stopped
-                if(line.length() == 0){
+                if (line.length() == 0) {
                     outStream.write(out.getBytes());
                     return;
                 }
@@ -57,11 +56,10 @@ public class MarsRoverController {
             Command[] commands;
 
             //Parse the commands
-            if(input.hasNextLine()) {
+            if (input.hasNextLine()) {
                 commands = Command.parseCommandSequence(input.nextLine());
-            }
-            else
-                throw new ParseException("Rover does not have commands (expected at line " + Integer.toString(lineIndex) +")", lineIndex);
+            } else
+                throw new ParseException("Rover does not have commands (expected at line " + Integer.toString(lineIndex) + ")", lineIndex);
 
             //Run commands
             rover.runCommandBacth(commands);
@@ -70,7 +68,7 @@ public class MarsRoverController {
             out += rover.toString() + System.getProperty("line.separator");
         }
         //remove the last new line
-        out = out.substring(0,out.length()-2);
+        out = out.substring(0, out.length() - 2);
         outStream.write(out.getBytes(StandardCharsets.US_ASCII));
     }
 
@@ -79,11 +77,11 @@ public class MarsRoverController {
      *
      * @param str input string on the form
      *            "(int: plateauX) (int: plateauY)[\n(int: xpos) (int: ypos) (char: orientation)\n(str: commands)]"
-     * @throws ParseException In case the input string is invalid
-     * @throws IOException if there is an error writing input or output
      * @return returns string containing in each line the final position and orientation of each rover
+     * @throws ParseException In case the input string is invalid
+     * @throws IOException    if there is an error writing input or output
      */
-    static String performBatchControl(String str) throws ParseException , IOException{
+    static String performBatchControl(String str) throws ParseException, IOException {
         //redirect input string to stream
         InputStream inStream = new ByteArrayInputStream(str.getBytes(StandardCharsets.US_ASCII));
 
@@ -99,23 +97,20 @@ public class MarsRoverController {
     /**
      * Entry point for application, can be used for solving the Mars Rover Problem.
      * User should provide input on the form
-     *   "(int: plateauX) (int: plateauY)[\n(int: xpos) (int: ypos) (char: orientation)\n(str: commands)]"
+     * "(int: plateauX) (int: plateauY)[\n(int: xpos) (int: ypos) (char: orientation)\n(str: commands)]"
+     *
      * @param args no argument used
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         System.out.println("Please provide info on the form  " +
                 "\"(int: plateauX) (int: plateauY)[\\n" +
                 "(int: xpos) (int: ypos) (char: orientation)\\n(str: commands)]\" \n");
 
         try {
             performBatchControl(System.in, System.out);
-        }
-        catch(ParseException pe){
+        } catch (ParseException pe) {
             System.out.println("Error parsing input at line " + pe.getErrorOffset() + ". Is it valid?\n" + pe.toString());
-        }
-        catch(IOException ie)
-        {
+        } catch (IOException ie) {
             System.out.println("Internal error setting streams, please try again.");
         }
     }

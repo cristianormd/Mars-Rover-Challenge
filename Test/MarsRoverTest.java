@@ -6,15 +6,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Contains tests regarding methods of the MarsRover class, in special restrainedMove, runCommand and fromString
- *
+ * <p>
  * Created by crmdias on 10/06/2017.
  */
 class MarsRoverTest {
     @Test
-    void testRestrainedMoveInsideBounds(){
+    void testRestrainedMoveInsideBounds() {
         //Arrange
-        Plateau plateau = new Plateau(1,1);
-        Coordinate roverCoordinate = new Coordinate(0,0);
+        Plateau plateau = new Plateau(1, 1);
+        Coordinate roverCoordinate = new Coordinate(0, 0);
 
         MarsRover rover = new MarsRover(roverCoordinate, Orientation.N, plateau);
 
@@ -22,14 +22,14 @@ class MarsRoverTest {
         rover.restrainedMove();
 
         //Assert
-        assertEquals(rover.getPosition(),new Coordinate(0,1));
+        assertEquals(rover.getPosition(), new Coordinate(0, 1));
     }
 
     @Test
-    void testRestrainedMoveOutsideBounds(){
+    void testRestrainedMoveOutsideBounds() {
         //Arrange
-        Plateau plateau = new Plateau(1,1);
-        Coordinate roverCoordinate = new Coordinate(0,1);
+        Plateau plateau = new Plateau(1, 1);
+        Coordinate roverCoordinate = new Coordinate(0, 1);
 
         MarsRover rover = new MarsRover(roverCoordinate, Orientation.N, plateau);
 
@@ -37,14 +37,14 @@ class MarsRoverTest {
         rover.restrainedMove();
 
         //Assert
-        assertEquals(rover.getPosition(),new Coordinate(0,1));
+        assertEquals(rover.getPosition(), new Coordinate(0, 1));
     }
 
     @Test
-    void testRunCommandRotation(){
+    void testRunCommandRotation() {
         //Arrange
-        Plateau plateau = new Plateau(1,1);
-        Coordinate roverCoordinate = new Coordinate(0,1);
+        Plateau plateau = new Plateau(1, 1);
+        Coordinate roverCoordinate = new Coordinate(0, 1);
 
         MarsRover rover = new MarsRover(roverCoordinate, Orientation.N, plateau);
 
@@ -52,17 +52,17 @@ class MarsRoverTest {
         rover.runCommand(Command.Left);
 
         //Assert
-        assertEquals(rover.getPosition(),new Coordinate(0,1));
-        assertEquals(rover.getOrientation(),Orientation.W);
+        assertEquals(rover.getPosition(), new Coordinate(0, 1));
+        assertEquals(rover.getOrientation(), Orientation.W);
     }
 
     @Test
-    void testFromString() throws ParseException{
+    void testFromString() throws ParseException {
         //Arrange
-        Plateau plateau= new Plateau(1,1);
+        Plateau plateau = new Plateau(1, 1);
 
         String roverString = "0 1 N";
-        Coordinate roverCoordinate = new Coordinate(0,2);
+        Coordinate roverCoordinate = new Coordinate(0, 2);
 
         MarsRover rover = new MarsRover(roverCoordinate, Orientation.N, plateau);
         MarsRover parsedRover;
@@ -71,7 +71,7 @@ class MarsRoverTest {
         parsedRover = MarsRover.fromString(roverString, plateau);
 
         //Assert
-        assertEquals(parsedRover.getPosition(),rover.getPosition());
-        assertEquals(parsedRover.getOrientation(),rover.getOrientation());
+        assertEquals(parsedRover.getPosition(), rover.getPosition());
+        assertEquals(parsedRover.getOrientation(), rover.getOrientation());
     }
 }

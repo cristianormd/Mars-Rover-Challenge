@@ -1,15 +1,11 @@
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-
-import java.security.InvalidParameterException;
 import java.text.ParseException;
 
 /**
  * This class represents a plateau on the surface of Mars, curiously rectangular and aligned with the poles.
- *
- *
+ * <p>
+ * <p>
  * Created by crmdias on 08/06/2017.
  */
 class Plateau {
@@ -32,22 +28,20 @@ class Plateau {
      * @return A properly initialized Plateau
      * @throws ParseException if the string is not a valid representation of a Plateau
      */
-    static Plateau fromString(String str) throws ParseException
-    {
+    static Plateau fromString(String str) throws ParseException {
         Scanner input = new Scanner(str);
         int offset = 0;
         Plateau plateau;
         try {
             //parse plateau x
-            int plateauX= input.nextInt();
+            int plateauX = input.nextInt();
             offset++;
             //parse ypos
             int plateauY = input.nextInt();
             offset++;
 
             plateau = new Plateau(plateauX, plateauY);
-        }
-        catch(NoSuchElementException nse) {
+        } catch (NoSuchElementException nse) {
             throw new ParseException("Invalid string parsing Plateau", offset);
         }
 
@@ -61,7 +55,7 @@ class Plateau {
      * @return true if its in the plateau, false otherwise
      */
     boolean contains(Coordinate coordinate) {
-        return coordinate.getX() >=0 && coordinate.getX() <= this.x && coordinate.getY() >=0 && coordinate.getY() <= this.y;
+        return coordinate.getX() >= 0 && coordinate.getX() <= this.x && coordinate.getY() >= 0 && coordinate.getY() <= this.y;
     }
 
 

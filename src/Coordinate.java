@@ -1,8 +1,6 @@
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 /**
  * Represents a two dimensional coordinate
- *
+ * <p>
  * Created by crmdias on 08/06/2017.
  */
 
@@ -25,6 +23,7 @@ public class Coordinate {
 
     /**
      * Adds the given coordinate to this coordinate
+     *
      * @param c the coordinate to be added
      */
     void add(Coordinate c) {

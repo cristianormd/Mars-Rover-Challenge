@@ -3,6 +3,8 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
+ * This class represents a Mars Rover in a certain Plateau in Mars.
+ *
  * Created by crmdias on 08/06/2017.
  */
 public class MarsRover {
@@ -11,8 +13,7 @@ public class MarsRover {
     private Coordinate position;
     private Plateau plateau;
 
-    MarsRover(Coordinate position, Orientation orientation, Plateau plateau)
-    {
+    MarsRover(Coordinate position, Orientation orientation, Plateau plateau) {
         this.position = position;
         this.orientation = orientation;
         this.plateau = plateau;
@@ -28,20 +29,21 @@ public class MarsRover {
 
     /**
      * Runs all given commands in series
+     *
      * @param commands The sequence of commands to be performed
      */
     void runCommandBacth(Command[] commands) {
-        for( Command command : commands)
+        for (Command command : commands)
             runCommand(command);
     }
 
     /**
      * Runs a given received command
+     *
      * @param command The command to be executed
      */
     void runCommand(Command command) {
-        switch(command)
-        {
+        switch (command) {
             case Left:
                 this.orientation = orientation.rotateLeft();
                 break;
@@ -58,25 +60,24 @@ public class MarsRover {
      * Moves the rover in its current orientation by 1 unit, respecting the limits of the Plateau it`s in
      */
     void restrainedMove() {
-        Coordinate moved = new Coordinate(this.position.getX(),this.position.getY());
+        Coordinate moved = new Coordinate(this.position.getX(), this.position.getY());
 
         moved.add(this.orientation.vector);
 
         //Only updates to moved position if inside plateau
-        if(this.plateau.contains(moved))
+        if (this.plateau.contains(moved))
             this.position = moved;
     }
 
     /**
      * Creates MarsRover object given string representation and a plateau
      *
-     * @param str partial String representation of the rover on form "(int: xpos) (int: ypos) (char: orientation)"
+     * @param str     partial String representation of the rover on form "(int: xpos) (int: ypos) (char: orientation)"
      * @param plateau Plateau where the rover is located
      * @return A properly initialized Mars Rover
      * @throws ParseException if the string is not a valid representation of a mars rover
      */
-    static MarsRover fromString(String str, Plateau plateau) throws ParseException
-    {
+    static MarsRover fromString(String str, Plateau plateau) throws ParseException {
         Scanner input = new Scanner(str);
         int offset = 0;
         MarsRover rover;
@@ -94,8 +95,7 @@ public class MarsRover {
             String orientationString = input.next();
             offset++;
             rover = new MarsRover(roverPosition, Orientation.valueOf(orientationString), plateau);
-        }
-        catch(NoSuchElementException nse) {
+        } catch (NoSuchElementException nse) {
             throw new ParseException("Invalid string parsing MarsRover", offset);
         }
 

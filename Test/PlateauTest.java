@@ -3,70 +3,66 @@ import org.junit.jupiter.api.Test;
 import java.text.ParseException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Contains tests testing the methods from class Plateau, in special method contains
- *
+ * <p>
  * Created by crmdias on 10/06/2017.
  */
-class PlateauTest{
-    Plateau plateau =new Plateau(10,10);
+class PlateauTest {
+    private Plateau plateau = new Plateau(10, 10);
 
     @Test
     void testContainsInnerLowerBound() {
 
         //Arrange
-        Coordinate testCoordinate = new Coordinate(0,0);
+        Coordinate testCoordinate = new Coordinate(0, 0);
 
         //Act
         boolean contains = plateau.contains(testCoordinate);
 
         //Assert
-        assertEquals(contains,true);
+        assertEquals(contains, true);
     }
 
     @Test
-    void testContainsOuterHigherBound()
-    {
+    void testContainsOuterHigherBound() {
 
         //Arrange
-        Plateau plateau = new Plateau(10,10);
-        Coordinate outsideCorner = new Coordinate(11,11);
+        Plateau plateau = new Plateau(10, 10);
+        Coordinate outsideCorner = new Coordinate(11, 11);
 
         //Act
         boolean isOutsideCorner = plateau.contains(outsideCorner);
 
         //Assert
-        assertEquals(isOutsideCorner,false);
+        assertEquals(isOutsideCorner, false);
     }
 
 
     @Test
-    void testContainsInnerHigherBound()
-    {
+    void testContainsInnerHigherBound() {
         //Arrange
-        Plateau plateau = new Plateau(10,10);
-        Coordinate outsideCorner = new Coordinate(10,10);
+        Plateau plateau = new Plateau(10, 10);
+        Coordinate outsideCorner = new Coordinate(10, 10);
 
         //Act
         boolean isOutsideCorner = plateau.contains(outsideCorner);
 
         //Assert
-        assertEquals(isOutsideCorner,true);
+        assertEquals(isOutsideCorner, true);
     }
 
     @Test
-    void testPlateuFromString() throws ParseException
-    {
+    void testPlateuFromString() throws ParseException {
         //Arrange
-        Plateau plateau = new Plateau(10,10);
+        Plateau plateau = new Plateau(10, 10);
         String str = "10 10";
 
         //Act
         Plateau parsedPlateau = Plateau.fromString(str);
 
         //Assert
-        assertEquals(parsedPlateau,plateau);
+        assertEquals(parsedPlateau, plateau);
     }
 }
