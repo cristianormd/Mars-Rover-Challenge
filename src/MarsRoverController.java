@@ -25,6 +25,8 @@ public class MarsRoverController {
         //Scanner is slightly slower than bufferedReader but generates more readable code
         Scanner input = new Scanner(inStream);
 
+        String out = "";
+
         //We initialize the Plateau
         Plateau plateau;
         try {
@@ -32,6 +34,7 @@ public class MarsRoverController {
         }catch(ParseException pe){
             throw new ParseException("Error parsing Plateau at line 1", 1);
         }
+
         //Then while there are rovers (lineIndex is only used for exceptions)
         for(int lineIndex=2; input.hasNextLine(); lineIndex++) {
 
@@ -43,8 +46,10 @@ public class MarsRoverController {
                 rover = MarsRover.fromString(line, plateau);
             }catch(ParseException pe){
                 //if this is an empty line, input has stopped
-                if(line.length() == 0)
+                if(line.length() == 0){
+                    outStream.write(out.getBytes());
                     return;
+                }
                 throw new ParseException("Error parsing rover at line " + Integer.toString(lineIndex), lineIndex);
             }
             lineIndex++;
@@ -61,12 +66,12 @@ public class MarsRoverController {
             //Run commands
             rover.runCommandBacth(commands);
 
-            //Write result (we write a newline after the first output (after 2 input lines processed)
-            if(lineIndex > 3)
-                outStream.write(System.getProperty("line.separator").getBytes());
-
-            outStream.write((rover.toString()).getBytes());
+            //Write result
+            out += rover.toString() + System.getProperty("line.separator");
         }
+        //remove the last new line
+        out = out.substring(0,out.length()-2);
+        outStream.write(out.getBytes(StandardCharsets.US_ASCII));
     }
 
     /**

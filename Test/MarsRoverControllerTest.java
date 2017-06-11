@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MarsRoverControllerTest {
 
     @Test
-    void testControlMarsRovers() throws ParseException, IOException{
+    void testPerformBatchControl() throws ParseException, IOException{
         //Arrange
         String input =
                 "5 5" + System.getProperty("line.separator")+
